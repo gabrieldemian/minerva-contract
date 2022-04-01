@@ -1,0 +1,14 @@
+
+.anchor
+.DS_Store
+target
+**/*.rs.bk
+node_modules
+
+target/release
+target/types
+target/deploy/web3_email.so
+target/debug
+target/bpfel-unknown-unknown
+
+devnet.json

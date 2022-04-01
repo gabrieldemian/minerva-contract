@@ -1,0 +1,23 @@
+[package]
+name = "minerva"
+version = "0.0.1"
+description = "Created with Anchor"
+authors = ["Gabriel Costa <gabrielgcr45@gmail.com>"]
+edition = "2018"
+license = "Apache-2.0"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "minerva"
+
+[features]
+no-entrypoint = []
+no-idl = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+uuid = { version = "0.8.*", features = ["serde", "v5"] }
+anchor-lang = "0.22.1"
+aes-gcm = "0.9.4"
+hex = "0.4.1"

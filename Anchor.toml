@@ -1,0 +1,15 @@
+[programs.localnet]
+minerva = "9KVS65SWuX5jnmJkzpyXMCdeKpad9G5sSoKopUUgDiA"
+
+[programs.devnet]
+minerva = "9KVS65SWuX5jnmJkzpyXMCdeKpad9G5sSoKopUUgDiA"
+
+[registry]
+url = "https://anchor.projectserum.com"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/devnet.json"
+
+[scripts]
+test = "npx ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
