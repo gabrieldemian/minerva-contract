@@ -10,7 +10,6 @@ import { Keypair, SystemProgram } from "@solana/web3.js";
 import { Minerva } from "../target/types/minerva";
 import { DEVNET_WALLET, getUserPDA, elliptic } from "../utils";
 import { expect } from "chai";
-import bs58 from "bs58";
 
 describe("minerva tests", () => {
   setProvider(Provider.env());
@@ -24,31 +23,11 @@ describe("minerva tests", () => {
 
   const sharedSecret = aliceKeypair.derive(bobKeypair.getPublic()).toString("hex")
 
-  it ('can encrypt and decrypt data', async () => {
-
-    const aliceKeypair = elliptic.genKeyPair()
-    const bobKeypair = elliptic.genKeyPair()
-
-    const alice = elliptic.keyFromPrivate(aliceKeypair.getPrivate().toString('hex'))
-    const bob = elliptic.keyFromPrivate(bobKeypair.getPrivate().toString('hex'))
-
-    const sharedSecret = aliceKeypair.derive(bobKeypair.getPublic()).toString("hex")
-    const sharedFromPublic = aliceKeypair.derive(
-      elliptic.keyFromPublic(
-        Buffer.from(bobKeypair.getPublic().encode('hex', true), 'hex')
-      ).getPublic()
-    ).toString("hex")
-
-    console.log('sharedSecret before: ', sharedSecret)
-    console.log('sharedFromPublic after: ', sharedFromPublic)
-  })
-
   /* generating blockchain wallets */
   const alice = DEVNET_WALLET;
   const bob = Keypair.generate();
 
   const program = workspace.Minerva as Program<Minerva>;
-
 
   it("can register both users and update the account", async () => {
     const aliceAccountPDA = await getUserPDA("user-account");
@@ -78,23 +57,13 @@ describe("minerva tests", () => {
       signers: [bob]
     });
 
-    const aliceSecondKeypair = elliptic.genKeyPair()
-    const aliceSecondDiffiePublic = aliceSecondKeypair.getPublic().encode("hex", true)
-
-    await program.rpc.updateAccount(aliceSecondDiffiePublic, {
-      accounts: {
-        authority: alice,
-        userAccount: aliceAccountPDA,
-      },
-    });
-
     const users = await program.account.userAccount.all();
 
     console.log("users: ", users);
     expect(users.length).to.equal(2);
   });
 
-  it("can send mails", async () => {
+  it("can encrypt emails, send the emails, and decrypt it", async () => {
     const mailA = Keypair.generate();
 
     let cipher = AES.encrypt("simplesmente intankavel o bostil", sharedSecret, { mode: mode.CTR })
@@ -138,7 +107,7 @@ describe("minerva tests", () => {
     console.log("cyphertext: ", emails[0].account.body);
     console.log("\n");
 
-    expect(emails.length).to.equal(1);
+    expect(plaintext.toString(enc.Utf8)).to.equal('simplesmente intankavel o bostil');
   });
 
 });

@@ -19,5 +19,3 @@ default = []
 [dependencies]
 uuid = { version = "0.8.*", features = ["serde", "v5"] }
 anchor-lang = "0.22.1"
-aes-gcm = "0.9.4"
-hex = "0.4.1"

@@ -19,11 +19,3 @@ pub fn get_uuid(now: &u32, body: &String, sender: &Pubkey) -> String {
 
     Uuid::new_v5(V5NAMESPACE, &vec).to_string()
 }
-
-pub fn vec_as_u8_32_arr(vector: Vec<u8>) -> [u8; 32] {
-    let mut arr = [0u8; 32];
-    for i in 0..32 {
-        arr[i] = vector[i];
-    }
-    arr
-}
